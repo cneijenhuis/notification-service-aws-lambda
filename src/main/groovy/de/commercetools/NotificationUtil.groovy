@@ -19,22 +19,12 @@ import static groovyx.net.http.ContentType.JSON
 
 class NotificationService implements RequestHandler<SNSEvent, Object> {
 
-    private String PROJECT_KEY = ''
-    private String SCOPE = ''
-    private String CLIENT_ID = ''
-    private String CLIENT_SECRET = ''
-    private String AUTH_URL = 'https://auth.sphere.io/'
-    private String API_URL = 'https://api.sphere.io/'
-
-    private String AWS_ACCESS_KEY = ''
-    private String AWS_SECRET_KEY = ''
-
     Object handleRequest(SNSEvent request, Context context) {
-        context.getLogger().log(request.getRecords().get(0).getSNS().getMessage())
-
         JsonSlurper slurper = new JsonSlurper()
         Map map = slurper.parseText(request.getRecords().get(0).getSNS().getMessage())
+        
         sendReservationNotification(map)
+        
         return null
     }
 
